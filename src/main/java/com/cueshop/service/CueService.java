@@ -42,4 +42,8 @@ public class CueService {
     public Cue getCue(Long id){
         return cueRepository.findCuesById(id);
     }
+    public List<Cue> search(String query){
+        List<Cue> cueSearch = cueRepository.findCuesByNameContainingOrBrandContainingOrSpecificationsContaining(query, query, query);
+        return cueSearch;
+    }
 }

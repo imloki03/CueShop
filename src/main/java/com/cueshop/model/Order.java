@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,7 +16,10 @@ public class Order {
     @Column(name = "username")
     private String username;
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @Column(name = "address")
+    private String address;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<OrderLine> orderList = new ArrayList<>();
 
     @Column(name = "payment_state")
@@ -25,11 +28,20 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String username, List<OrderLine> orderList) {
+    public Order(Long id, String username, String address, List<OrderLine> orderList) {
         this.id = id;
         this.username = username;
+        this.address = address;
         this.orderList = orderList;
         this.payment_state = false;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Boolean getPayment_state() {

@@ -16,17 +16,17 @@ public class OrderLine {
     @Column(name = "quantity")
     private Long quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+//    @ManyToOne
+//    @JoinColumn(name = "order_id")
+//    private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
+//    public Order getOrder() {
+//        return order;
+//    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//    public void setOrder(Order order) {
+//        this.order = order;
+//    }
 
     public OrderLine() {
     }

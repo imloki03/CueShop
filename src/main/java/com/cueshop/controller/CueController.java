@@ -57,4 +57,8 @@ public class CueController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @GetMapping("/search/{query}")
+    public ResponseEntity<List<Cue>> search(@PathVariable String query){
+        return ResponseEntity.ok(cueService.search(query));
+    }
 }
