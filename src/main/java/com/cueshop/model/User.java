@@ -1,29 +1,40 @@
 package com.cueshop.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.List;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
     @Id
-    @Column(name = "username", nullable = false)
+    //@Column(name = "username", nullable = false)
     String username;
-    @Column(name = "password", nullable = false)
+    //@Column(name = "password", nullable = false)
     String password;
-    @Column(name = "name", nullable = false)
+    //@Column(name = "name", nullable = false)
     String name;
-    @Column(name = "email", nullable = false)
+    //@Column(name = "email", nullable = false)
     String email;
-    @Column(name = "phone", nullable = false)
+    //@Column(name = "phone", nullable = false)
     String phone;
-    @Column(name = "role", nullable = false)
-    String role;
+    //@Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    Role role;
 
-    public User() {
-    }
 
     public User(String username, String password, String name, String email, String phone) {
         this.username = username;
@@ -31,54 +42,31 @@ public class User {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.role = "user";
+        this.role = Role.user;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
     }
 
-    public String getPassword() {
-        return password;
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

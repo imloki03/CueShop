@@ -1,10 +1,17 @@
 package com.cueshop.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -25,8 +32,6 @@ public class Order {
     @Column(name = "payment_state")
     private Boolean payment_state;
 
-    public Order() {
-    }
 
     public Order(Long id, String username, String address, List<OrderLine> orderList) {
         this.id = id;
@@ -34,45 +39,5 @@ public class Order {
         this.address = address;
         this.orderList = orderList;
         this.payment_state = false;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Boolean getPayment_state() {
-        return payment_state;
-    }
-
-    public void setPayment_state(Boolean payment_state) {
-        this.payment_state = payment_state;
-    }
-
-    public List<OrderLine> getOrderList() {
-        return orderList;
-    }
-
-    public void setOrderList(List<OrderLine> orderList) {
-        this.orderList = orderList;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

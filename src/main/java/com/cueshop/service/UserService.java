@@ -18,7 +18,7 @@ public class UserService {
     EmailService emailService;
     @Transactional
     public void register(User user){
-        User existedUser = userRepository.findByUsername(user.getUsername());
+        User existedUser = userRepository.findByUsername(user.getUsername()).orElse(null);
         if (existedUser==null){
             userRepository.save(user);
         }
@@ -27,7 +27,7 @@ public class UserService {
         }
     }
     public void login(LoginDTO loginDTO){
-        User user = userRepository.findByUsername(loginDTO.getUsername());
+        User user = userRepository.findByUsername(loginDTO.getUsername()).orElse(null);
         if (user==null){
             throw new RuntimeException("Không tìm thấy người dùng!");
         } else {
@@ -41,7 +41,7 @@ public class UserService {
         }
     }
     public UserDTO getUserInfo(String username){
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElse(null);
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(username);
         userDTO.setName(user.getName());
@@ -60,7 +60,7 @@ public class UserService {
 
     @Transactional
     public void resetPassword(String username, String password){
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow();
         user.setPassword(password);
         userRepository.save(user);
     }
