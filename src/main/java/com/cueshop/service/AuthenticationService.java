@@ -1,6 +1,7 @@
 package com.cueshop.service;
 
 import com.cueshop.DTO.AuthResponse;
+import com.cueshop.DTO.AuthWithEmailResponse;
 import com.cueshop.DTO.LoginRequest;
 import com.cueshop.DTO.ResgisterRequest;
 import com.cueshop.model.Role;

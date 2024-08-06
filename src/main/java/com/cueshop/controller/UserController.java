@@ -62,17 +62,15 @@ public class UserController {
     @PostMapping("/get_user_info")
     public ResponseEntity<?> getUserInfo(@RequestBody UsernameDTO username) {
         try {
-            System.out.println("call");
             return ResponseEntity.ok(userService.getUserInfo(username.getUsername()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("bug"+e.getMessage());
         }
     }
     @PostMapping("/forgot_password")
-    public ResponseEntity<String> forgotPassword(@RequestParam String username){
+    public ResponseEntity<?> forgotPassword(@RequestParam String username){
         try {
-            String email = userService.forgotPassword(username);
-            return ResponseEntity.ok(email);
+            return ResponseEntity.ok(userService.forgotPassword(username));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

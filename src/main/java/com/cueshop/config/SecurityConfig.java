@@ -32,6 +32,8 @@ public class SecurityConfig {
                         auth.requestMatchers(
                                 "/user/register"
                                 ,"/user/login"
+                                ,"/user/forgot_password"
+                                ,"/email/**"
                                 ,"/product/**")
                         .permitAll()
                         .anyRequest()

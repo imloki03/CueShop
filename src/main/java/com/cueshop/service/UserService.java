@@ -1,5 +1,7 @@
 package com.cueshop.service;
 
+import com.cueshop.DTO.AuthResponse;
+import com.cueshop.DTO.AuthWithEmailResponse;
 import com.cueshop.DTO.LoginDTO;
 import com.cueshop.DTO.UserDTO;
 import com.cueshop.model.User;
@@ -16,6 +18,8 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     EmailService emailService;
+    @Autowired
+    JwtSevice jwtSevice;
     @Transactional
     public void register(User user){
         User existedUser = userRepository.findByUsername(user.getUsername()).orElse(null);
@@ -42,6 +46,9 @@ public class UserService {
     }
     public UserDTO getUserInfo(String username){
         User user = userRepository.findByUsername(username).orElse(null);
+        if (user==null){
+            throw new RuntimeException("Không tìm thấy người dùng!");
+        }
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(username);
         userDTO.setName(user.getName());
@@ -50,12 +57,18 @@ public class UserService {
         return userDTO;
     }
 
-    public String forgotPassword(String username){
+    public AuthWithEmailResponse forgotPassword(String username){
         String email = getUserInfo(username).getEmail();
         String otp = generateOtp();
         emailService.storeOtp(email, otp);
         emailService.sendOtpEmail(email, otp);
-        return email;
+        var user = userRepository.findByUsername(username).orElseThrow();
+        var jwtToken = jwtSevice.generateToken(user);
+        return AuthWithEmailResponse
+                .builder()
+                .token(jwtToken)
+                .email(email)
+                .build();
     }
 
     @Transactional
